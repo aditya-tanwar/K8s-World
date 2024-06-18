@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-server-service # Name of the service
+spec:
+  type: NodePort # Use a load balancer service type
+  selector:
+    app: web-server # Select pods with this label
+  ports:
+    - protocol: TCP # Use TCP protocol
+      port: 80 # Expose port 80 on the service
+      targetPort: 8080 # Map it to port 8080 on the pod

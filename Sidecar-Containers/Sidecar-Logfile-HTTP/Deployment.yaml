@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server # Name of the deployment
+spec:
+  replicas: 1 # Number of replicas
+  selector:
+    matchLabels:
+      app: web-server # Label selector for the pod
+  template:
+    metadata:
+      name: test-http
+      labels:
+        app: web-server # Label for the pod
+    spec:
+      containers:
+        - name: nginx # Main container
+          image: nginx # Use the nginx image
+          ports:
+            - containerPort: 80 # Expose port 80
+          command: ["/bin/sh"] # Override the default command
+          args: ["-c", "while true; do echo \"$(date) Hello from nginx\"; sleep 1; done | tee /var/log/nginx/access.log"] # Run a shell script that generates logs every second and writes them to a file and standard output 
+        - name: socat # Sidecar container
+          image: alpine/socat # Use the alpine/socat image
+          ports:
+            - containerPort: 8080 # Expose port 8080
+          command: ["socat"] # Override the default command
+          args: ["-v", "TCP-LISTEN:8080,fork,reuseaddr", "EXEC:\"ls\""] # Run socat to listen on port 8080 and execute kubectl logs to return the logs from the main container
