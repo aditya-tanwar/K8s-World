@@ -1330,5 +1330,24 @@ prometheus-pushgateway:
 
 ```
 
+---
 
+### To expose the kube-state-metrics either use NodePort or Igress Rule 
 
+## To scrape metrics from kube-state-metrics via prometheus the below configuration has to be added in the prometheus config 
+
+```
+global:
+  scrape_interval: 30s
+
+scrape_configs:
+- job_name: kube-state-metrics
+  honor_timestamps: true
+  scrape_interval: 1m
+  scrape_timeout: 1m
+  metrics_path: /metrics # the path where the metrics is getting exposed 
+  scheme: http
+  static_configs:
+  - targets:
+    - kube-state-metrics.kube-system.svc.cluster.local:8080  # add the url for the kube-state-metrics service 
+  ```
