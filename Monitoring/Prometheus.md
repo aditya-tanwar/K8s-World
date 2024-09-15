@@ -1,9 +1,11 @@
-# Install using Helm
 
+# Before Proceeding with the promethues installation 
 
 ## Enable the metrics server 
 
 https://github.com/kubernetes-sigs/metrics-server?tab=readme-ov-file
+
+# Install using Helm
 
 ## Add helm repo
 
