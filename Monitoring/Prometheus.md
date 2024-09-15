@@ -1,5 +1,10 @@
 # Install using Helm
 
+
+## Enable the metrics server 
+
+https://github.com/kubernetes-sigs/metrics-server?tab=readme-ov-file
+
 ## Add helm repo
 
 `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
