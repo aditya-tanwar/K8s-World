@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: qos-guaranteed
+spec:
+  containers:
+  - name: qos-guaranteed-ctr
+    image: nginx
+    resources: # for the guranteed qos class the cpu and memory should be equal ( both req and limits ) 
+      limits:
+        cpu: 100m
+        memory: 100Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: qos-burstable
+spec:
+  containers:
+  - name: qos-burstable-ctr
+    image: nginx
+    resources:
+      requests:
+        cpu: 100m
+      limits:
+        cpu: 200m
+

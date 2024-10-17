@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc-sc
+spec: 
+  accessModes:
+    - ReadWriteOnce  # it has be same as the PV 
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "aditya-storageclass"

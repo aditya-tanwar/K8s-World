@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: my-nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  minAvailable: 2
