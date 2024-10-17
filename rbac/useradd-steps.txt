@@ -1,0 +1,42 @@
+ 2385  clear
+ 2386  ls
+ 2387  openssl genrsa -out user1.key 2048\nopenssl req -new -key user1.key -out user1.csr
+ 2388  clear
+ 2389  ls
+ 2390  openssl x509 -req -in user1.csr -CA /var/lib/rancher/k3s/server/tls/client-ca.crt -CAkey var/lib/rancher/k3s/server/tls/client-ca.key -CAcreateserial -out user1.crt -days 500
+ 2391  ls /var/lib/rancher/k3s/server/tls
+ 2392  openssl x509 -req -in user1.csr -CA /var/lib/rancher/k3s/server/tls/server-ca.crt -CAkey var/lib/rancher/k3s/server/tls/server-ca.key -CAcreateserial -out user1.crt -days 500
+ 2393  openssl x509 -req -in user1.csr -CA /var/lib/rancher/k3s/server/tls/client-ca.nochain.crt -CAkey var/lib/rancher/k3s/server/tls/client-ca.key -CAcreateserial -out user1.crt -days 500
+ 2394  openssl x509 -req -in user1.csr -CA /var/lib/rancher/k3s/server/tls/client-ca.crt -CAkey var/lib/rancher/k3s/server/tls/client-ca.key -CAcreateserial -out user1.crt -days 500
+ 2395  ll /var/lib/rancher/k3s/server/tls
+ 2396  chmod 600 /var/lib/rancher/k3s/server/tls/client-ca.crt
+ 2397  chmod 600 /var/lib/rancher/k3s/server/tls/client-ca.key
+ 2398  openssl x509 -req -in user1.csr -CA /var/lib/rancher/k3s/server/tls/client-ca.crt -CAkey var/lib/rancher/k3s/server/tls/client-ca.key -CAcreateserial -out user1.crt -days 500
+ 2399  clear
+ 2400  ls
+ 2401  ll /var/lib/rancher/k3s/server
+ 2402  cp  /var/lib/rancher/k3s/server/tls/client-ca.key .
+ 2403  cp  /var/lib/rancher/k3s/server/tls/client-ca.crt .
+ 2404  openssl x509 -req -in user1.csr -CA ./client-ca.crt -CAkey ./client-ca.key -CAcreateserial -out user1.crt -days 500
+ 2405  clear
+ 2406  ls
+ 2407  ll
+ 2408  k config set-credentials user1 --client-key=user1.key --client-certificate=user1.crt
+ 2409  k config set-credentials user1 --client-key=user1.key --client-certificate=user1.crt --embed-certs=true
+ 2410  k config set-credentials user1 --client-key=user1.key --client-certificate=user1.crt --embed-certs=true -h
+ 2411  clear
+ 2412  ls
+ 2413  k config set-context user1 --cluster  default 
+ 2414  k config get-contexts
+ 2415  k config set-context user1
+ 2416  k config use-context user1
+ 2417  k auth whoami
+ 2418  clear
+ 2419  cat /root/.kube/config
+ 2420  k get nodes 
+ 2421  k config view 
+ 2422  vim /root/.kube/config
+ 2423  k auth whoami
+ 2424  k get nodes 
+ 2425  clear
+

@@ -1,0 +1,23 @@
+spec:
+  terminationGracePeriodSeconds: 3600 # pod-level
+  containers:
+  - name: test
+    image: '...'
+
+    ports:
+    - name: liveness-port
+      containerPort: 8080
+
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: liveness-port
+      failureThreshold: 1
+      periodSeconds: 60
+      # Override pod-level terminationGracePeriodSeconds #
+      terminationGracePeriodSeconds: 60
+
+
+#SIGTERM signal: When a pod needs to be terminated (e.g., due to deletion, scale-down, or eviction), Kubernetes sends a SIGTERM signal to its containers.   
+#Grace period: The termination grace period starts after the SIGTERM signal is sent. During this period, the containers have time to perform cleanup actions, such as closing connections, saving state, and writing data to persistent storage.   
+#Forcible termination: If the containers don't terminate gracefully within the specified grace period, Kubernetes sends a SIGKILL signal, forcefully terminating the pod.   

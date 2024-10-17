@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: st01
+spec:
+    replicas: 3 
+    serviceName: st01-svc
+    selector:
+        matchLabels:
+            app: st01
+    template:
+        metadata:
+            labels:
+                app: st01
+        spec:
+            containers:
+                - name: st01
+                  resources:
+                    requests:
+                        cpu: 100m
+                        memory: 100Mi
+                    limits:
+                        cpu: 100m
+                        memory: 100Mi
+                  image: nginx:latest
+                  env:
+                    - name: key1 
+                      valueFrom:    
+                        secretKeyRef:
+                            name: sec1
+                            key: s1
+                  ports:
+                    - containerPort: 80
+                      name: http
+            #       volumeMounts:
+            #         - name:  sts01
+            #           mountPath:  /etc/stspvc
+                
+            # volumes:
+            #     - name: sts01
+            #       persistentVolumeClaim:
+            #         claimName: pvc01
+    volumeClaimTemplates: # this is for dynamic pv and pvc creation 
+        - metadata:
+            name: pvc01
+          spec:
+            accessModes:
+                - ReadWriteOnce
+            resources:
+                requests:
+                    storage: 1Gi
+            storageClassName: microk8s-hostpath

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-readiness-exec
+  labels:
+    app: pod-readiness-exec
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    readinessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
+      timeoutSeconds: 3
+
+
+# If you want to wait before executing a readiness probe, 
+# you should use initialDelaySeconds or a startupProbe.

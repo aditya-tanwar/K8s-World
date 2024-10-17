@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - image: mongo:4.0.8
+        name: mongo
+        livenessProbe: # always defined at the container level 
+          exec: # one of the probing mechanism 
+            command:
+            - mongo
+            - --eval
+            - "db.adminCommand('ping')"
+            # probe customization 
+          initialDelaySeconds: 1 # tells kubernetes to wait for 1 second before executing the first probe
+          periodSeconds: 10 # tells kubernetes to wait for 10 seconds between probes
+          timeoutSeconds: 5 # tells kubernetes to wait for 5 seconds 
+          failureThreshold: 2 # tells kubernetes to wait for 3 failures in a row
+          successThreshold: 1 # tells kubernetes to wait for 1 success in a row
+        args: ["--dbpath", "/data/db"]
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "admin"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "password"
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongo-volume
+      volumes:
+      - name: mongo-volume
+        emptyDir: {}
