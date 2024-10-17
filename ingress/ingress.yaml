@@ -1,0 +1,18 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-nginx-ingress
+spec:
+  ingressClassName: nginx  # Assuming you have Nginx Ingress Controller deployed
+  rules:
+  - host: aditya.k3s.com # Optional: Specify a hostname to access your application (e.g., your-app.com)
+    http:
+      paths:
+      - path: /  # Matches all paths
+        pathType: Prefix  # Only consider paths starting with "/"
+        backend:
+          service:
+            name: my-nginx-service
+            port: 
+              number: 80

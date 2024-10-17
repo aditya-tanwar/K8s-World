@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  labels: {{- include "labels" . | nindent 4 }}
+spec:
+  {{- if .Values.app.replicas.enabled }}
+  replicas: {{ .Values.app.replicas.count }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: cowsay
+  template:
+    metadata:
+      labels: {{- include "labels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: cowsay
+        image: {{ .Values.app.image }}
+        ports:
+        - containerPort: 80
+        resources:
+        {{- toYaml .Values.app.resources | nindent 9 }}
+
+
+

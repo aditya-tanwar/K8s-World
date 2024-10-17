@@ -1,0 +1,14 @@
+app:
+  name:
+  env: dev
+  replicas:
+    enabled: false
+    count: 1
+  image: docker/getting-started
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi

@@ -1,0 +1,19 @@
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: cowsay
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: cowsay
+    template:
+      metadata:
+        labels:
+          app: cowsay
+      spec:
+        containers:
+        - name: cowsay
+          image: docker/getting-started
+          ports:
+          - containerPort: 80
